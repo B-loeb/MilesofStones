@@ -25,13 +25,13 @@ button{
     height: 50px;
     transition: .3;
     position: relative
-    color: white;
+    color: lightslategray;
     margin-bottom: 6px;
     font-size: 16px;
-    background-color: black;
+    background-color: darkslategray;
     border: none;
     outline: none;
-    background: black;
+    background: darkslategray;
 }
 
 #canvas1 {
