@@ -1,10 +1,46 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+nav {
+    width: 200px;
+    height:245px;
+    z-index: 50;
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%, -50%);
+}
+button{
+    width: 100%;
+    height: 50px;
+    transition: .3;
+    position: relative
+    color: white;
+    margin-bottom: 6px;
+    font-size: 16px;
+    background-color: black;
+    border: none;
+    outline: none;
+    background: black;
+}
+
 #canvas1 {
     width: 800px;
     height: 500px;
-    border: 3px solid lightslategray;
+    border: 5px solid lightslategray;
     background: darkslategray;
     position: absolute;
+    left: 50%;
     top: 50%;
-    left: 50%
     transform: translate(-50%, -50%);
 }
