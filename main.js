@@ -21,14 +21,23 @@ const player = {
     moving: false,
 }
 
-const userSprite = new Image();
-userSprite.src = "characterSprite\emaleLead.png";
+const playerSprite = new Image();
+playerSprite.src = "emaleLead.png";
 const background = new Image();
-background.src = "assets\Images\BackgroundSelfDrawMoon.png"
+background.src = "BackgroundSelfDrawMoon.png"
+
+function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH){
+    ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
+}
+
 
 //animation loop
 function animate(){
+                 // first 0 is x second is y// 
+    ctx.clearRect(0, 0,canvas.width, canvas.height)
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-    requestAnimationFrame(animate);
+    drawSprite(playerSprite, 0, 0, player.width, player.height,
+        0, 0, player.height, player.width)
+    requestAnimationFrame(animate)
 }
-animate()
+animate() 
