@@ -24,7 +24,7 @@ const player = {
 const playerSprite = new Image();
 playerSprite.src = "emaleLead.png";
 const background = new Image();
-background.src = "BackgroundSelfDrawMoon.png"
+background.src = "BackgroundSelfDrawMoon.png";
 
 function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
@@ -71,8 +71,66 @@ function handlePlayerFrame() {
     else player.frameX = 0;
 }
 
+//Player2
+const dogmanPlayer = {
+    x: 50,
+    y: 50,
+    width: 64,
+    height: 64,
+    frameX: 0,
+    frameY: 0,
+    speed: 12,
+    moving: false,
+}
+
+const dogmanSprite = new Image();
+dogmanSprite.src = "dogman.png";
 
 
+function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
+    ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
+}
+
+//keeps track of which keys are pressed in an array//
+window.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+    dogmanPlayer.moving = true;
+});
+window.addEventListener("keyup", function (e) {
+    delete keys[e.keyCode];
+    dogmanPlayer.moving = false;
+});
+//Controls for player2//
+function moveDogman() {
+    //move up W
+    if (keys[87] && dogmanPlayer.y > 250) {
+        dogmanPlayer.y -= dogmanPlayer.speed;
+        dogmanPlayer.frameY = 0;
+        dogmanPlayer.moving = true;
+    }
+    //move left A
+    if (keys[65] && dogmanPlayer.x > 0) {
+        dogmanPlayer.x -= dogmanPlayer.speed;
+        dogmanPlayer.frameY = 1;
+        dogmanPlayer.moving = true;
+    }
+    //move down S
+    if (keys[83] && dogmanPlayer.y < canvas.height - dogmanPlayer.height) {
+        dogmanPlayer.y += dogmanPlayer.speed;
+        dogmanPlayer.frameY = 2;
+        dogmanPlayer.moving = true;
+    }
+    //move right D
+    if (keys[68] && dogmanPlayer.x < canvas.width - dogmanPlayer.width) {
+        dogmanPlayer.x += dogmanPlayer.speed;
+        dogmanPlayer.frameY = 3;
+        dogmanPlayer.moving = true;
+    }
+}
+function handlePlayerFrame() {
+    if (dogmanPlayer.frameX < 8 && dogmanPlayer.moving) dogmanPlayer.frameX++;
+    else dogmanPlayer.frameX = 0;
+}
 let fps, fpsInterval, startTime, now, then, elapsed;
 
 function startAnimation(fps) {
@@ -93,6 +151,7 @@ function animate() {
         drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY,
             player.width, player.height, player.x, player.y, player.width, player.height);
         movePlayer();
+        moveDogman()
         handlePlayerFrame();
     }
 }

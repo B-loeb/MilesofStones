@@ -2,7 +2,20 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    background-color: rgb(27, 27, 68);
 }
+#score{
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    font-family: 'Helvetica', sans-serif;
+    font-size: 10em;
+    color:rgba(0, 255, 0, 0.39);
+    text-shadow: 6px 6px 6px #141d16;
+    text-align: center;
+}
+
 
 #canvas1 {
     width: 800px;
@@ -13,5 +26,4 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    
 }
