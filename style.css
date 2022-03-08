@@ -4,11 +4,6 @@
     box-sizing: border-box;
 }
 
-.container {
-    display: inline;
-
-}
-
 #canvas1 {
     width: 800px;
     height: 500px;
