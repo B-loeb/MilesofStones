@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 500;
 
-
+window.confirm("Begin Game?", "Cancel")
 
 //keep track of what keys the user presses on keyboard using keyUP and keyDown event Listeners GLOBAL
 const keys = [];
