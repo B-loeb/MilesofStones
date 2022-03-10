@@ -1,75 +1,74 @@
-const dogmanSprite = new Image();
-dogmanSprite.src = "dogman.png";
+document.addEventListener('load', function(){
+    const canvas = document.getElementById('canvas1');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 500;
 
-
-function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
-    ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
-}
-
-//keeps track of which keys are pressed in an array//
-window.addEventListener("keydown", function (e) {
-    keys[e.keyCode] = true;
-    dogmanPlayer.moving = true;
-});
-window.addEventListener("keyup", function (e) {
-    delete keys[e.keyCode];
-    dogmanPlayer.moving = false;
-});
-
-//Controls for player2//
-function moveDogman() {
-    //move up W
-    if (keys[87] && dogmanPlayer.y > 250) {
-        dogmanPlayer.y -= dogmanPlayer.speed;
-        dogmanPlayer.frameY = 0;
-        dogmanPlayer.moving = true;
+    class Game {
+        constructor(ctx, width, height){
+            this.ctx = ctx;
+            this.width = width;
+            this.height = height;
+            this.enemies = [];
+            this.enemyInterval =  1000;
+            this.enemyTimer = 0
+            console.log(this.enemies)
+        }
+        update(deltaTime){
+            this.enemies = this.enemies.filter(object => !objectMarkedForDeletion);
+            if(this.enemyTimer > this.enemyInterval){
+                this.#addNewEnemy();
+                this.enemyTimer = 0;
+            }else{
+                this.enemyTimer += deltaTime;
+            }
+            this.enemies.forEach(object => object.update())
+        }
+        draw(){
+            this.enemies.forEach(object => object.draw(this.ctx));
+        }
+        #addNewEnemy(){
+            this.enemies.push(new this.#addNewEnemy(this));
+        }
     }
-    //move left A
-    if (keys[65] && dogmanPlayer.x > 0) {
-        dogmanPlayer.x -= dogmanPlayer.speed;
-        dogmanPlayer.frameY = 1;
-        dogmanPlayer.moving = true;
+    class Enemy {
+        constructor(game){
+            this.game = game;
+            this.x = this.game.width;
+            this.y = Math.random() * this.game.height;
+            this.width = 100;
+            this.height = 100;
+            this.markedForDeletion = false;
+            const dogman = {
+                x: 100,
+                y: 100,
+                width: 64,
+                height: 68,
+                frameX: 0,
+                frameY: 0,
+                speed: 12,
+                moving: false,
+            }
+        }
+        update(){
+            this.x--;
+            //remove a enemy that goes out of bounds
+            if (this.x < 0 - this.width) this.markedForDeletion = true;
+        }
+        draw(ctx){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
-    //move down S
-    if (keys[83] && dogmanPlayer.y < canvas.height - dogmanPlayer.height) {
-        dogmanPlayer.y += dogmanPlayer.speed;
-        dogmanPlayer.frameY = 2;
-        dogmanPlayer.moving = true;
-    }
-    //move right D
-    if (keys[68] && dogmanPlayer.x < canvas.width - dogmanPlayer.width) {
-        dogmanPlayer.x += dogmanPlayer.speed;
-        dogmanPlayer.frameY = 3;
-        dogmanPlayer.moving = true;
-    }
-}
-function handleDogmanFrame() {
-    if (dogmanPlayer.frameX < 8 && dogmanPlayer.moving) dogmanPlayer.frameX++;
-    else dogmanPlayer.frameX = 0;
-}
 
-
-
-function startAnimation(fps) {
-    fpsInterval = 1000 / fps;
-    then = Date.now();
-    startTime = then;
-    animate();
-}
-//animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    now = Date.now();
-    elapsed = now - then;
-    if (elapsed > fpsInterval) {
-        then = now - (elapsed % fpsInterval);
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-        drawSprite(dogmanSprite, player.width * player.frameX, player.height * player.frameY,
-            player.width, player.height, player.x, player.y, player.width, player.height);
-       
-        moveDogman();
-        handleDogmanFrame();
+    const game = new Game(ctx, canvas.width, canvas.height);
+    let lastTime = 1;
+    function animate(timeStamp){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+        game.update();
+        game.draw();
+        //somecode lolz
+        requestAnimationFrame(animate)
     }
-}
-startAnimation(10)
+}) animate(0)
